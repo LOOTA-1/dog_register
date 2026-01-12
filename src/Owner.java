@@ -88,17 +88,13 @@ public class Owner {
 			return false;
 		}
 
-		int length = size();
-		for (int i = 0; i < length; i++) {
-				if (this != dog.getOwner()) {
-					dog.setOwner(this);
-				}
-				
-				this.dogs[i] = dog;
-				return true;
+		if (this != dog.getOwner()) {
+			dog.setOwner(this);
 		}
+		
+		this.dogs[size()] = dog;
+		return true;
 
-		return false;
 	}
 
 	private boolean weOwn(Dog dog) {
@@ -162,7 +158,8 @@ public class Owner {
 	}
 
 	public boolean ownsDog(Dog dog) {
-		for (int i = 0; i < dogs.length; i++) {
+		int length = size();
+		for (int i = 0; i < length; i++) {
 			if (dogs[i] == dog) {
 				return true;
 			}
