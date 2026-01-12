@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DogRegister {
 
@@ -235,7 +236,6 @@ public class DogRegister {
 			System.out.print(owners.get(i).toString());
 
 		}
-
 	}
 
 	private Dog[] getAllTheDogs() {
@@ -247,16 +247,12 @@ public class DogRegister {
 		}
 
 		ArrayList<Owner> owners = ownerCollection.getAllOwners();
-		Dog[] ownersDogs;
-		for (int i = 0; owners.size() > i; i++) {
-
-			ownersDogs = owners.get(i).getDogs();
-			for (int j = 0; ownersDogs.length > j; j++) {
-				if (ownersDogs[j] != null) {
-					dogs.add(ownersDogs[j]);
-				}
-			}
+		for (Owner owner : owners) {
+			dogs.addAll(Arrays.asList(owner.getDogs()));
 		}
+		
+		dogs.removeIf((e) -> e == null );
+		
 		Dog[] sortedDogs = dogs.toArray(new Dog[0]);
 		return sortedDogs;
 	}
@@ -275,7 +271,6 @@ public class DogRegister {
 			return;
 		}
 		
-		//for (int i = dogs.length - 1; 0 <= i; i--)
 		for (int i = 0; dogs.length > i; i++) {
 			if (dogs[i].getTailLength() < minimumTail) {
 				continue;
@@ -297,8 +292,7 @@ public class DogRegister {
 	}
 
 	private void printErrorMessage(String msg) {
-		System.out.println(msg);
-
+		System.err.println(msg);
 	}
 
 	public static void main(String[] args) {
