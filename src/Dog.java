@@ -1,6 +1,9 @@
 
 public class Dog {
 	private static final double TAX_TAIL_LENGTH = 3.7;
+	private static final String TAX_BREED = "TAX";
+	private static final String DACHSHOUND_BREED = "DACHSHOUND";
+	private static final double TAIL_SCALE_FACTOR = 10.0;
 	
 	private String name;
 	private String breed;
@@ -10,17 +13,6 @@ public class Dog {
 	private Owner owner;
 
 	public Dog(String name, String breed, int age, int weight) {
-		makeDog(name, breed, age, weight);
-
-	}
-
-	public Dog(String name, String breed, int age, int weight, Owner owner) {
-		makeDog(name, breed, age, weight);
-		this.owner = owner;
-
-	}
-
-	private void makeDog(String name, String breed, int age, int weight) {
 		if (name == null || breed == null) {
 			throw new NullPointerException();
 		}
@@ -28,35 +20,37 @@ public class Dog {
 			throw new IllegalArgumentException();
 		}
 		
-		
-
 		this.name = name.toUpperCase();
 		this.breed = breed.toUpperCase();
 		this.weight = weight;
 		this.age = age;
 		setTailSize(this.breed);
-
 	}
 
+	public Dog(String name, String breed, int age, int weight, Owner owner) {
+		this(name, breed, age, weight);
+		this.owner = owner;
+	}
+
+
 	private void setTailSize(String breed) {
-		if (breed.equals("TAX") || breed.equals("DACHSHUND")) {
+		if (breed.equals(TAX_BREED) || breed.equals(DACHSHOUND_BREED)) {
 			this.tailSize = TAX_TAIL_LENGTH;
 		} else {
-			this.tailSize = (age * weight) / 10.0;
-
+			this.tailSize = (age * weight) / TAIL_SCALE_FACTOR;
 		}
-
 	}
 
 	public int updateAge(int years) {
+		
 		if (years >= 0) {
 			if ((age + years) < 0) {
 				this.age = Integer.MAX_VALUE;
 			} else {
 				this.age = age + years;
 			}
-
 		}
+		
 		setTailSize(this.breed);
 		return age;
 	}
@@ -95,24 +89,24 @@ public class Dog {
 	}
 
 	public boolean setOwner(Owner owner) {
+
 		if (owner == null) {
 			this.owner.removeDog(this);
 			removeOwner();
-
 			return true;
-
 		}
+
 		if (owner.equals(this.owner)) {
 			return false;
-		} else {
-			if (this.owner != null) {
-				this.owner.removeDog(this);
-			}
-			this.owner = owner;
-			owner.addDog(this);
-			return true;
 		}
-
+		
+		if (this.owner != null) {
+			this.owner.removeDog(this);
+		}
+		
+		this.owner = owner;
+		owner.addDog(this);
+		return true;
 	}
 
 	public String toString() {

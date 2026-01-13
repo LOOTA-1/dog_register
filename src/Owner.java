@@ -9,9 +9,9 @@ public class Owner {
 
 	public Owner(String name, Dog... dogs) {
 		this.name = name.toUpperCase();
+		
 		for (int i = 0; i < dogs.length; i++) {
 			addDog(dogs[i]);
-
 		}
 	}
 
@@ -29,6 +29,7 @@ public class Owner {
 
 		String returnString = " ";
 		String addString;
+		
 		for (int i = 0; dogs.length > i; i++) {
 			if (dogs[i] == null) {
 				System.out.println("null found in getdogs");
@@ -40,7 +41,6 @@ public class Owner {
 		}
 
 		return "\n" + DogRegister.formatName(name) + " dogs (" + returnString + ") ";
-
 	}
 
 	public Dog getDog(String name) {
@@ -48,115 +48,109 @@ public class Owner {
 			if (dogs[i] != null && dogs[i].getName().equals(name.toUpperCase()))
 				return dogs[i];
 		}
+		
 		return null;
-
 	}
 
+	public int size() {
+		int i = 0;
+		for (; i < dogs.length; i++) {
+			if (this.dogs[i] == null) break;
+		}
+		return i + 1;
+	}
+	
 	public Dog[] getDogs() {
+		
 		if (!ownsAnyDog()) {
 			return new Dog[0];
 		}
-		int nullCounter = 0;
-		for (int i = 0; i < dogs.length; i++) {
-			if (this.dogs[i] != null) {
-				nullCounter++;
-			}
+		
+		int current_length = size();
+		Dog[] dogs_copy = new Dog[current_length];
+		for (int i = 0; i < current_length; i++) {
+				dogs_copy[i] = dogs[i];
 		}
-		int writeIndex = 0;
-		Dog[] dogsCopy = new Dog[nullCounter];
-		for (int i = 0; i < dogs.length; i++) {
-			if (dogs[i] != null) {
-				dogsCopy[writeIndex] = dogs[i];
-				writeIndex++;
-			}
-		}
-		DogSorter.sort(SortingAlgorithm.MERGE_SORT, new NameComparator(), dogsCopy);
-		return dogsCopy;
-
+		
+		DogSorter.sort(SortingAlgorithm.MERGE_SORT, new NameComparator(), dogs_copy);
+		return dogs_copy;
 	}
 
 	public boolean addDog(Dog dog) {
 		if (dog == null) {
 			System.out.print("null dog");
 			return false;
-		}
-		if (this.ownsMaxDogs()) {
+		} else if (this.ownsMaxDogs()) {
 			System.out.print("max dog");
 			return false;
-		}
-		if (this.ownsDog(dog.getName())) {
+		} else if (this.ownsDog(dog.getName())) {
 			System.out.print("owed dog");
 			return false;
 		}
 
-		for (int i = 0; i < dogs.length; i++) {
-			if (this.dogs[i] == null) {
-				if (this != dog.getOwner()) {
-					dog.setOwner(this);
-				}
-				
-			
-			this.dogs[i] = dog;
-			
-			
-			return true;
-
-			}
+		if (this != dog.getOwner()) {
+			dog.setOwner(this);
 		}
+		
+		this.dogs[size()] = dog;
+		return true;
 
-		return false;
 	}
 
+	private boolean weOwn(Dog dog) {
+		return dog.getOwner() != null && this == dog.getOwner();
+	}
+	
 	public boolean removeDog(String name) {
-		for (int i = 0; i < dogs.length; i++) {
-			if (this.dogs[i] != null && dogs[i].getName().equals(name.toUpperCase())) {
-				return removeDog(dogs[i]);
-
+		
+		name = name.toUpperCase();
+		
+		int length = size();
+		for (int i = 0; i < length; i++) {
+			if (dogs[i].getName().equals(name)) {
+				if(weOwn(dogs[i]))
+					dogs[i].removeOwner();
+				removeDog(i);
 			}
 		}
 		return false;
 	}
 
+	private void removeDog(int index) {
+	
+		int offset = 0;
+		while(index + offset + 1 < MAX_DOG_AMOUNT && dogs[index + offset + 1] != null) {
+			dogs[index + offset] = dogs[index + offset + 1];
+		}
+		
+		dogs[index + offset] = null;
+	}
+	
 	public boolean removeDog(Dog dog) {
 		for (int i = 0; i < dogs.length; i++) {
-			if (this.dogs[i] != null && dogs[i].equals(dog)) {
-				dogs[i] = null;
-				if (dog.getOwner() != null && this == dog.getOwner()) {
-					dog.removeOwner();
-
-				}
-
+			if (this.dogs[i] == null) break;
+			
+			if (dogs[i].equals(dog)) {
+				if (weOwn(dog)) dog.removeOwner();
+				removeDog(i);
 				return true;
-
 			}
 		}
 		return false;
 	}
 
 	public boolean ownsAnyDog() {
-		for (int i = 0; i < dogs.length; i++) {
-			if (dogs[i] != null) {
-
-				return true;
-			}
-		}
-		return false;
+		return dogs[0] != null;
 	}
 
 	public boolean ownsMaxDogs() {
-
-		for (int i = 0; i < dogs.length; i++) {
-			if (dogs[i] == null) {
-				return false;
-			}
-		}
-		return true;
+		return dogs[MAX_DOG_AMOUNT - 1] != null;
 	}
 
 	public boolean ownsDog(String name) {
-		for (int i = 0; i < dogs.length; i++) {
-			if (dogs[i] != null && dogs[i].getName().equals(name.toUpperCase())) {
-
+		int length = size();
+		for (int i = 0; i < length; i++) {
+			if (dogs[i].getName().equals(name.toUpperCase())) {
 				return true;
 			}
 		}
@@ -164,9 +158,9 @@ public class Owner {
 	}
 
 	public boolean ownsDog(Dog dog) {
-		for (int i = 0; i < dogs.length; i++) {
+		int length = size();
+		for (int i = 0; i < length; i++) {
 			if (dogs[i] == dog) {
-
 				return true;
 			}
 		}

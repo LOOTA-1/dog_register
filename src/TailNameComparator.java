@@ -13,21 +13,18 @@ public class TailNameComparator implements Comparator<Dog> {
 			return 0;
 		}
 		int charIndex = 0;
-		char firstChar = firstDog.getName().replaceAll(" ", "").charAt(charIndex);
-		char secondChar = secondDog.getName().replaceAll(" ", "").charAt(charIndex);
 
-		while (true) {
-			if ((int) firstChar == (int) secondChar) {
-				charIndex++;
-			} else {
-				if ((int) firstChar > (int) secondChar) {
-
-					return 1;
-				} else {
-					return -1;
-				}
-			}
-		}
+		
+		do {
+			char firstChar = firstDog.getName().replaceAll(" ", "").charAt(charIndex);
+			char secondChar = secondDog.getName().replaceAll(" ", "").charAt(charIndex);
+			
+			if(((int) firstChar != (int) secondChar))
+				return (int) firstChar > (int) secondChar ? 1 : -1;
+			
+			charIndex++;
+		} while (charIndex < firstDog.getName().length());
+		return 0;
 	}
 
 }
