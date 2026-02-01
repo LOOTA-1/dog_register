@@ -20,34 +20,38 @@ public class DogSorter {
 
 	private static void bubbleSort(Dog[] dogs, Comparator<Dog> compareFunction) {
 		
-		Dog place;
-
-		for (int j = 0; j < dogs.length - 1; j++) {
-			for (int i = j + 1; i < dogs.length; i++) {
-				if (compareFunction.compare(dogs[j], dogs[i]) > 0)
-
-				{
-					place = dogs[j];
-					dogs[j] = dogs[i];
-					dogs[i] = place;
-				}
-			}
-			
-		}
+		Dog place;				
+		int firstDog, secondDog;
+        boolean swapped;
+        for (firstDog = 0; firstDog < dogs.length - 1; firstDog++) {
+            swapped = false;
+            for (secondDog = 0; secondDog < dogs.length - firstDog - 1; secondDog++) {
+                if (compareFunction.compare(dogs[secondDog], dogs[secondDog + 1]) > 0) {
+                                       
+                	place = dogs[secondDog];
+                    dogs[secondDog] = dogs[secondDog + 1];
+                    dogs[secondDog + 1] = place;
+                    swapped = true;
+                }
+            }          
+            if (swapped == false)
+                break;
+        }
+		
 	}
 
 	private static void insertionSort(Dog[] dogs, Comparator<Dog> compareFunction)
 	
 	{
-		for (int i = 1; i < dogs.length; ++i) {
-			Dog temp = dogs[i];
-			int j = i - 1;
+		for (int firstDog = 1; firstDog < dogs.length; ++firstDog) {
+			Dog temp = dogs[firstDog];
+			int secondDog = firstDog - 1;
 
-			while (j >= 0 && compareFunction.compare(dogs[j], temp) > 0) {
-				dogs[j + 1] = dogs[j];
-				j--;
+			while (secondDog >= 0 && compareFunction.compare(dogs[secondDog], temp) > 0) {
+				dogs[secondDog + 1] = dogs[secondDog];
+				secondDog--;
 			}
-			dogs[j + 1] = temp;
+			dogs[secondDog + 1] = temp;
 		}
 	}
 }

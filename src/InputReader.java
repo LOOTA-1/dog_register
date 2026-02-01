@@ -5,7 +5,6 @@ public class InputReader {
     private static boolean exist; 
 	private Scanner scan;
 	
-	
 	public InputReader() {
 		this(new Scanner(System.in));
 	}
@@ -21,6 +20,7 @@ public class InputReader {
 	}
 
 	public int readInt(String text) {
+		
 		int temp;
 		while (true) {
 			System.out.println(text + "?>");

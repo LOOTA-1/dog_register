@@ -1,7 +1,8 @@
-
 public class Dog {
-	private static final double TAX_TAIL_LENGTH = 3.7;
-	
+	private static final double DACHSHUND_TAIL_LENGTH = 3.7;
+	private static final String DACHSHUND_BREED_ALT_SE = "TAX";//dont know
+	private static final String DACHSHUND_BREED = "DACHSHUND";
+
 	private String name;
 	private String breed;
 	private int age;
@@ -10,41 +11,34 @@ public class Dog {
 	private Owner owner;
 
 	public Dog(String name, String breed, int age, int weight) {
-		makeDog(name, breed, age, weight);
-
+		this(name, breed, age, weight, null);
 	}
 
 	public Dog(String name, String breed, int age, int weight, Owner owner) {
-		makeDog(name, breed, age, weight);
-		this.owner = owner;
-
-	}
-
-	private void makeDog(String name, String breed, int age, int weight) {
 		if (name == null || breed == null) {
 			throw new NullPointerException();
 		}
-		if (name.isEmpty() || breed.isEmpty()|| age < 0 || weight < 0) {
+		if (name.isEmpty() || breed.isEmpty() || age < 0 || weight < 0) {
 			throw new IllegalArgumentException();
 		}
-		
-		
 
 		this.name = name.toUpperCase();
 		this.breed = breed.toUpperCase();
 		this.weight = weight;
 		this.age = age;
 		setTailSize(this.breed);
+		this.owner = owner;
 
 	}
+	
 
 	private void setTailSize(String breed) {
-		if (breed.equals("TAX") || breed.equals("DACHSHUND")) {
-			this.tailSize = TAX_TAIL_LENGTH;
+		if (breed.equals(DACHSHUND_BREED_ALT_SE) || breed.equals(DACHSHUND_BREED)) {
+			this.tailSize = DACHSHUND_TAIL_LENGTH;
 		} else {
 			this.tailSize = (age * weight) / 10.0;
 
-		}
+		}		
 
 	}
 
@@ -89,12 +83,12 @@ public class Dog {
 		this.owner = null;
 	}
 
-	public void increaseTime() {
-		//name bad so junit work
+	public void increaseTime() {				
 		this.age++;
 	}
 
 	public boolean setOwner(Owner owner) {
+		
 		if (owner == null) {
 			this.owner.removeDog(this);
 			removeOwner();
@@ -117,7 +111,7 @@ public class Dog {
 
 	public String toString() {
 		
-		String returnString = DogRegister.formatName(name) +" "+ breed+" "+ age+" "+ weight+" "+tailSize;
+		String returnString = name +" "+ breed+" "+ age+" "+ weight+" "+tailSize;
 		if(owner != null) {
 			returnString = returnString + owner.getName();
 		}

@@ -1,10 +1,7 @@
-
-public class Owner {
-    
+public class Owner {   
     private static final int MAX_DOG_AMOUNT = 7;
     
 	private String name;
-
 	private Dog[] dogs = new Dog[MAX_DOG_AMOUNT];
 
 	public Owner(String name, Dog... dogs) {
@@ -31,7 +28,7 @@ public class Owner {
 		String addString;
 		for (int i = 0; dogs.length > i; i++) {
 			if (dogs[i] == null) {
-				System.out.println("null found in getdogs");
+			
 				continue;
 			}
 			addString = dogs[i].toString();
@@ -39,7 +36,7 @@ public class Owner {
 			returnString = returnString.concat("\n \t");
 		}
 
-		return "\n" + DogRegister.formatName(name) + " dogs (" + returnString + ") ";
+		return "\n" + name + " dogs (" + returnString + ") ";
 
 	}
 
@@ -77,15 +74,15 @@ public class Owner {
 
 	public boolean addDog(Dog dog) {
 		if (dog == null) {
-			System.out.print("null dog");
+			
 			return false;
 		}
 		if (this.ownsMaxDogs()) {
-			System.out.print("max dog");
+			
 			return false;
 		}
 		if (this.ownsDog(dog.getName())) {
-			System.out.print("owed dog");
+			
 			return false;
 		}
 
@@ -93,12 +90,10 @@ public class Owner {
 			if (this.dogs[i] == null) {
 				if (this != dog.getOwner()) {
 					dog.setOwner(this);
-				}
-				
+				}				
 			
 			this.dogs[i] = dog;
-			
-			
+						
 			return true;
 
 			}
@@ -118,6 +113,7 @@ public class Owner {
 	}
 
 	public boolean removeDog(Dog dog) {
+		
 		for (int i = 0; i < dogs.length; i++) {
 			if (this.dogs[i] != null && dogs[i].equals(dog)) {
 				dogs[i] = null;
@@ -127,13 +123,13 @@ public class Owner {
 				}
 
 				return true;
-
 			}
 		}
 		return false;
 	}
 
 	public boolean ownsAnyDog() {
+		
 		for (int i = 0; i < dogs.length; i++) {
 			if (dogs[i] != null) {
 

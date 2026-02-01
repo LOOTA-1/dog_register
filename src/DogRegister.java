@@ -11,7 +11,7 @@ public class DogRegister {
 	private static final String LIST_DOGS_COMMAND = "LIST DOGS";
 	private static final String INCREASE_AGE_COMMAND = "INCREASE AGE";
 	private static final String EXIT_COMMAND = "EXIT";
-	private static final String HELP_COMMAND = "HELP";
+	private static final String DISPLAY_COMMAND = "HELP";
 
 	private InputReader scan  = new InputReader();
 	private OwnerCollection ownerCollection = new OwnerCollection();
@@ -32,8 +32,10 @@ public class DogRegister {
 	}
 
 	private void runCommandLoop() {
-		String command = " ";
+		
+	  	String command = " ";
 		displayCommands();
+		
 		while (!command.equals(EXIT_COMMAND)) {
 			command = readCommand();
 			command = command.toUpperCase();
@@ -55,7 +57,7 @@ public class DogRegister {
 				+ INCREASE_AGE_COMMAND + "\n" 
 				+ EXIT_COMMAND + "\n\n"
 				+ "To bring up this info type " 
-				+ HELP_COMMAND + "\n");
+				+ DISPLAY_COMMAND + "\n");
 
 	}
 
@@ -104,17 +106,13 @@ public class DogRegister {
 
 			// exits the program without Error message
 			break;
-		case HELP_COMMAND:
+		case DISPLAY_COMMAND:
 			displayCommands();
 			break;
 
 		default:
-			printErrorMessage("Wrong command, try again \n try " + HELP_COMMAND + "\n");
+			printErrorMessage("Wrong command, try again \n try " + DISPLAY_COMMAND + "\n");
 		}
-	}
-
-	public static String formatName(String name) {
-		return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
 	}
 
 	private void addOwnerCommand() {
@@ -275,12 +273,12 @@ public class DogRegister {
 			return;
 		}
 		
-		//for (int i = dogs.length - 1; 0 <= i; i--)
+		
 		for (int i = 0; dogs.length > i; i++) {
 			if (dogs[i].getTailLength() < minimumTail) {
 				continue;
 			}
-			System.out.print("Name owner " + formatName(dogs[i].getOwner().getName()) + " Name Dog " + formatName(dogs[i].getName()) + " Age " + dogs[i].getTailLength()+ "Tail Length" + dogs[i].getAge() + "/n");
+			System.out.print("Name owner " + dogs[i].getOwner().getName() + " Name Dog " + dogs[i].getName() + " Age " + dogs[i].getTailLength()+ "Tail Length" + dogs[i].getAge() + "/n");
 		}
 	}
 

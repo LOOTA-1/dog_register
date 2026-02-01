@@ -14,14 +14,8 @@ public class OwnerCollection {
 
 	}
 
-	private boolean safeCheck(Owner owner) {
-		if (owner == null) {
-			return false;
-		}
-		return true;
-	}
-
 	private boolean ownerExists(Owner owner) {
+		
 		if (this.ownersList.indexOf(owner) == -1) {
 			return false;
 		}
@@ -29,11 +23,13 @@ public class OwnerCollection {
 	}
 
 	private int searchOwner(Owner owner) {
+		
 		int position = this.ownersList.indexOf(owner);
 		return position;
 	}
 
 	private int searchOwnerString(String name) {
+		
 		int counter = 0;
 		for (Owner owner : this.ownersList) {
 			if (owner.getName().equals(name.toUpperCase())) {
@@ -47,7 +43,7 @@ public class OwnerCollection {
 
 	public boolean addOwner(Owner owner) {
 
-		if (!safeCheck(owner) || ownerExists(owner)) {
+		if (owner == null || ownerExists(owner)) {
 			return false;
 		}
 		
@@ -59,15 +55,18 @@ public class OwnerCollection {
 	public boolean removeOwner(String owner) {
 
 		int temp = searchOwnerString(owner);
+		
 		if (temp == -1) {
 			return false;
 		}
+		
 		this.ownersList.remove(temp);
 		return true;
 	}
 
 	public boolean removeOwner(Owner owner) {
-		if (!safeCheck(owner)) {
+		
+		if (owner == null) {
 			return false;
 		}
 		if (!ownerExists(owner)) {
@@ -89,7 +88,7 @@ public class OwnerCollection {
 
 	public boolean containsOwner(Owner owner) {
 
-		if (!safeCheck(owner)) {
+		if (owner == null) {
 			return false;
 		}
 		if (!ownerExists(owner)) {
@@ -101,6 +100,7 @@ public class OwnerCollection {
 	}
 
 	public Owner getOwner(String owner) {
+		
 		int temp = searchOwnerString(owner);
 		if (temp == -1) {
 
@@ -120,6 +120,7 @@ public class OwnerCollection {
 	}
 
 	public int size() {
+		
 		int intReturn = this.ownersList.size();
 		return intReturn;
 	}
