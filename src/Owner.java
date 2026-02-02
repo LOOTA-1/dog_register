@@ -118,7 +118,7 @@ public class Owner {
 			if (this.dogs[i] != null && dogs[i].equals(dog)) {
 				dogs[i] = null;
 				if (dog.getOwner() != null && this == dog.getOwner()) {
-					dog.removeOwner();
+					dog.setOwner(null);
 
 				}
 

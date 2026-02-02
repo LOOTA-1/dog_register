@@ -79,7 +79,7 @@ public class Dog {
 		return owner;
 	}
 
-	public void removeOwner() {
+	private void removeOwner() {
 		this.owner = null;
 	}
 

@@ -53,25 +53,21 @@ public class OwnerCollection {
 	}
 
 	public boolean removeOwner(String owner) {
-
-		int temp = searchOwnerString(owner);
 		
-		if (temp == -1) {
+		if (searchOwnerString(owner) == -1) {
 			return false;
 		}
 		
-		this.ownersList.remove(temp);
+		this.ownersList.remove(searchOwnerString(owner));
 		return true;
 	}
 
 	public boolean removeOwner(Owner owner) {
 		
-		if (owner == null) {
+		if (owner == null || !ownerExists(owner)) {
 			return false;
 		}
-		if (!ownerExists(owner)) {
-			return false;
-		}
+		
 		this.ownersList.remove(searchOwner(owner));
 		return true;
 	}
@@ -125,7 +121,7 @@ public class OwnerCollection {
 		return intReturn;
 	}
 
-	public void sortOwners() {
+	private void sortOwners() {
 
 		Collections.sort(this.ownersList, new Comparator<Owner>() {
 
